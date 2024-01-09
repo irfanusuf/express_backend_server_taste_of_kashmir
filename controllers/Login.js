@@ -5,20 +5,20 @@ const secretKey = process.env.SECRET_KEY;
 
 const handleLogin = async (req, res) => {
     try {
-        const { email, password } = req.body;
-        const isUser = await User.findOne({ email });
+        const { username, password } = req.body;
+        const isUser = await User.findOne({ username });
 
-        if (email !== '' && password !== '') {
+        if (username !== '' && password !== '') {
             if (isUser) {
                 const passVerify = await bcrypt.compare(password, isUser.password);
 
                 if (passVerify) {
                  
-                    const token = jwt.sign({userId: isUser._id, email: isUser.email}, `${secretKey}` , {
+                    const token = jwt.sign({userId: isUser._id, username: isUser.username}, `${secretKey}` , {
                         expiresIn: '1h', 
                     });
 
-                    res.status(200).json({ message: 'Logged In Successfully' , token});
+                    res.status(200).json({ message: 'Logged In Successfully' , token , username});
                 } else {
                     res.json({ message: 'Password Does Not Match'});
                 }

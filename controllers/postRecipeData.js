@@ -1,33 +1,51 @@
-const  Recipe  = require ('../models/RecipeModel');
+const Recipe = require('../models/RecipeModel');
+const cloudinary = require('cloudinary');
+const User = require('../models/UserModel')
 
 
 
-const PostRecipeData = async ( req , res) =>{
+cloudinary.config({
+    cloud_name: 'dbo0xmbd7',
+    api_key: '717735839128615',
+    api_secret: 'fqcjtd3HxpH_t1dAEtqr595ULW0'
+});
 
-const { title, ingredients, instructions, imageUrl} = req.body ;
+const PostRecipeData = async (req, res) => {
 
-const isRecipe = await Recipe.findOne({title});
+   
+    const { title, ingredients, instructions } = req.body;
+    const image = req.body.image;
+    try {
+        if (title !== "" && ingredients !== "" && instructions !== "") {
 
-if (!isRecipe) {
+            const upload = await cloudinary.v2.uploader.upload(image, {
+                folder: "recipe-pics",
+            });
 
-if ( title !== "" && ingredients !== "" && instructions !== "" ){
+            const newRecipe = new Recipe({
+                title,
+                ingredients,
+                instructions,
+                imageUrl: upload.secure_url,
+                author : req.userId
+           
+// 
 
-    const  newRecipe = new Recipe({title , ingredients , instructions , imageUrl });
-    await newRecipe.save();
-    res.status(201).json({ message : "Recipe Created"})
-}
- else  {
-    res.status(200).json({ message : "All Feilds Required"})
- }
-}
-else {
-    res.json({message: " Recipe already in database"})
-}
+            });
 
-
-
-
-}
+            await newRecipe.save();
 
 
-module.exports = PostRecipeData; 
+            await User.findByIdAndUpdate(req.userId, { $push: { recipeList: newRecipe._id } });
+            res.status(201).json({ message: "Recipe Created" });
+
+        } else {
+            res.json({ message: "All Fields Required" });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = PostRecipeData;
