@@ -2,6 +2,7 @@ const Recipe = require('../models/RecipeModel');
 
 const getLocalRecipes = async (req, res) => {
   try {
+   
     const recipes = await Recipe.find().populate('author', 'username'); 
     console.log(recipes)
 

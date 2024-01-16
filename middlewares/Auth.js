@@ -11,12 +11,13 @@ const authJwt = (req, res, next) => {
 
   jwt.verify(token, `${secretKey}`, (err, decryptedToken) => {
     if (err) {
-      return res.json({ message: 'meow' });
+      return res.json({ message: 'forbidden' });
     }
 
     console.log(decryptedToken)
+    
     req.userId = decryptedToken.userId
-    console.log(req.userId)
+
     
     next(); 
   });
