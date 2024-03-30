@@ -49,6 +49,7 @@ connectDb()
 
 
 // defining routes and their handler functiions which are in seperate file systems
+app.get('/' , (req ,res)=>{return res.json({message : " server is running on render "})})
 app.post('/api/signup', handleRegister);
 app.post('/api/login', handleLogin);
 app.get('/rapid-api/fetch/recipes', fetchRecipeData);
