@@ -23,7 +23,7 @@ require('dotenv').config();
 
 
 const app = express();                       //intiating express app 
-const port = process.env.PORT                //defining port 
+const port = 4000               //defining port 
 const url = process.env.MONGO_URL_DEV;       // declaring url
 
 app.use(cors());                             // using cors middleware which enables cross origin resource sharing 
