@@ -24,7 +24,7 @@ require('dotenv').config();
 
 const app = express();                       //intiating express app 
 const port = 4000               //defining port 
-const url =  "mongodb+srv://irfanusuf33:ester327811@cluster0.g8zmr53.mongodb.net/recipe-server"    // declaring url
+const url =  "mongodb+srv://irfanusuf33:user_pwd@testcluster.a0pehai.mongodb.net/?retryWrites=true&w=majority&appName=testCluster"    // declaring url
 
 app.use(cors());                             // using cors middleware which enables cross origin resource sharing 
 app.use(bodyParser.json());                  // using bodyparser which converts body data into json 
