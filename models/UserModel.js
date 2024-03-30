@@ -6,7 +6,7 @@ const mongoose = require('mongoose');   //importing mongose which is a library t
 
 const User = mongoose.model('User', {
     username: String,
-    email: {type : String , unique: true , required : true},
+    email:  String ,
     password: String,
     profilePicUrl: String,
     recipeList: { type: mongoose.Schema.Types.ObjectId, ref: 'Recipe'},

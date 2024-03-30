@@ -18,13 +18,13 @@ const getLocalRecipes = require('./controllers/getLocalRecipe');
 
 
 // importing config for dotenv
-require('dotenv').config();
+// require('dotenv').config();
 
 
 
-const app = express();                       //intiating express app 
+const app = express();           //intiating express app 
 const port = 4000               //defining port 
-const url =  "mongodb+srv://irfanusuf33:user_pwd@testcluster.a0pehai.mongodb.net/?retryWrites=true&w=majority&appName=testCluster"    // declaring url
+const url =  "mongodb+srv://irfanusuf33:user_pwd@testcluster.a0pehai.mongodb.net/meowDB?retryWrites=true&w=majority&appName=testCluster"    // declaring url
 
 app.use(cors());                             // using cors middleware which enables cross origin resource sharing 
 app.use(bodyParser.json());                  // using bodyparser which converts body data into json 
@@ -33,10 +33,19 @@ app.use(bodyParser.json());                  // using bodyparser which converts 
 
 
 // connecting mongodb on local host with master db 
-if(mongoose.connect(url))
-{
-  console.log(`Database Connected on ${url}`)
+
+const connectDb = async ()=>{
+  const connect = await mongoose.connect(url)
+  if (connect){
+    console.log(`DB connected on ${url}`)
+  }
+  else{
+    console.log("db error")
+  }
 }
+
+connectDb()
+
 
 
 // defining routes and their handler functiions which are in seperate file systems
