@@ -18,13 +18,13 @@ const getLocalRecipes = require('./controllers/getLocalRecipe');
 
 
 // importing config for dotenv
-// require('dotenv').config();
+ require('dotenv').config();
 
 
 
 const app = express();           //intiating express app 
-const port = 4000               //defining port 
-const url =  "mongodb+srv://irfanusuf33:user_pwd@testcluster.a0pehai.mongodb.net/meowDB?retryWrites=true&w=majority&appName=testCluster"    // declaring url
+const port = process.env.PORT               //defining port 
+const url =  process.env.MONGO_URI   // declaring url
 
 app.use(cors());                             // using cors middleware which enables cross origin resource sharing 
 app.use(bodyParser.json());                  // using bodyparser which converts body data into json 
